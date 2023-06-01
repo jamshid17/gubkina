@@ -15,15 +15,19 @@ from django.forms import  (
 from .models import MainInfoModel
 
 
-class TestForm(forms.Form):
-    text = CharField()
-    fiel = FileField()
+
+class FileForm(forms.Form):
+    copy_passport = FileField(widget=ClearableFileInput())
+    copy_certificate = FileField(widget=ClearableFileInput())
+    image_three_to_four = FileField(widget=ClearableFileInput())
+
 
 class MainInfoForm(forms.ModelForm):
 
     class Meta:
         model = MainInfoModel
         fields = '__all__'
+        
         widgets = {
             'first_name': TextInput(attrs={
                 "id":"name",

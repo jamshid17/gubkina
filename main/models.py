@@ -1,6 +1,8 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 import datetime
+from django.core.validators import FileExtensionValidator
+
 
 
 def year_choices():
@@ -57,9 +59,9 @@ class MainInfoModel(models.Model):
     graduation_place = models.CharField(max_length=20, choices=GraduationPlaceChoices.choices)
     graduation_certificate_ser = models.CharField(max_length=50)
     graduation_year = models.IntegerField(choices=year_choices())
-    copy_passport = models.FileField(upload_to='files')
-    copy_graduation_certificate = models.FileField(upload_to='files')
-    image_three_to_four = models.FileField(upload_to='files')
+    copy_passport = models.FileField(upload_to='files/passports', validators=[FileExtensionValidator(allowed_extensions=["pdf", "jpg", "jpeg", "png",])])
+    copy_graduation_certificate = models.FileField(upload_to='files/gr_certificates', validators=[FileExtensionValidator(allowed_extensions=["pdf", "jpg", "jpeg", "png",])])
+    image_three_to_four = models.FileField(upload_to='files/three_to_four', validators=[FileExtensionValidator(allowed_extensions=["pdf", "jpg", "jpeg", "png",])])
     
     #majoring fields
     major_choice = models.CharField(max_length=200, choices=MajorChoices.choices)

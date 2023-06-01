@@ -27,6 +27,15 @@
         </div>
       </div>
     </header>
+    <div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
     <div class="container">
       <form action="{% url 'main' %}" method="post" enctype="multipart/form-data" invalidate>
         {% csrf_token %}
@@ -132,7 +141,6 @@
                 <p class="instead_label">Загрузите копию паспорта:</p>
               </div>
               <div class="file_design">
-                <label for="choose_file">+</label>
                 {{ form.copy_passport }}
               </div>
             </div>
@@ -143,7 +151,6 @@
                 </p>
               </div>
               <div class="file_design">
-                <label for="choose_file">+</label>
                 {{ form.copy_graduation_certificate }}
               </div>
             </div>
@@ -152,7 +159,6 @@
                 <p class="instead_label">Загрузите фото 3x4:</p>
               </div>
               <div class="file_design">
-                <label for="choose_file">+</label>
                 {{ form.image_three_to_four }}
               </div>
             </div>
@@ -164,7 +170,8 @@
         <div class="two_programs form_wrapper">
           <div class="check_box">
             <div class="box_same">
-              {{ form.major_choice }}
+              <!-- {{ form.major_choice }} -->
+              Техническое направление
             </div>
             <div id="tech_faculties">
               <div class="select_faculty">
@@ -178,7 +185,7 @@
               </div>
             </div>
           </div>
-          <div class="check_box">
+          <!-- <div class="check_box">
             <div id="econ_faculties">
               <div class="select_faculty">
                 {{ form.economic_major_choice_first }}
@@ -187,7 +194,7 @@
                 {{ form.economic_major_choice_second }}
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="statement">
           <div class="state_text">
@@ -215,7 +222,6 @@
             данных
           </p>
         </div>
-        <!-- {{ form }} -->
       </form>
     </div>
   </body>
