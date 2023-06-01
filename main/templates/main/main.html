@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="{% static 'main/imgs/logo.png' %}" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/main.css' %}">
+    <title>Онлайн подача документов</title>
+  </head>
+  <body>
+    <header id="main_header">
+      <div class="container">
+        <div class="wrapper_items">
+          <img
+            src="{% static 'main/imgs/logo2.png' %}"
+            alt="Губкинский университет"
+            class="nav_logo"
+          />
+          <div class="tel_call">
+            <a href="tel:+998 71 200-01-56" class="call_center"
+              >Колл центр: +998 71 200-01-56</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <form action="{% url 'main' %}" method="post" enctype="multipart/form-data" invalidate>
+        {% csrf_token %}
+        <div class="sub_parent">
+          <h1 class="sub_title">Онлайн подача документов</h1>
+          <h3 class="info_text">Введите следующие данные:</h3>
+        </div>
+        <div class="form_wrapper">
+          <div class="personal_data">
+            <div class="input_box">
+              <label for="surname">Фамилия:</label>
+              {{ form.last_name }}
+            </div>
+            <div class="input_box">
+              <label for="name">Имя:</label>
+              {{ form.first_name }}
+            </div>
+            <div class="input_box">
+              <label for="f-name">Отчество:</label>
+              {{ form.middle_name }}
+            </div>
+            <div class="input_box">
+              <div class="radio_name">
+                <p class="rad_input">Пол:</p>
+              </div>
+              {{ form.gender }}
+            </div>
+            <div class="input_box">
+              <label for="nat_doc">Дата рождения:</label>
+              {{ form.birth_date }}
+            </div>
+            <div class="input_box">
+              <label for="nat_doc">Национальность:</label>
+              {{ form.nationality }}
+            </div>
+            <div class="input_box">
+              <label for="nat_doc">Место рождения:</label>
+              {{ form.birth_place }}
+            </div>
+            <div class="input_box">
+              <label for="nat_doc">Место проживания:</label>
+              {{ form.living_place }}
+            </div>
+          </div>
+          <div class="second_part">
+            <div class="input_box">
+              <label for="nat_doc">Гражданство:</label>
+              {{ form.citizenship }}
+            </div>
+            <div class="input_box">
+              <label for="nat_doc">Документ удостоверяющий личность:</label>
+              {{ form.identity_document_name }}
+            </div>
+            <div class="input_box">
+              <div class="double_data">
+                <label for="seria">Серия:</label>
+                {{ form.identity_document_ser }}
+              </div>
+              <div class="double_data">
+                <label for="num">№:</label>
+                {{ form.identity_document_id }}
+              </div>
+            </div>
+            <div class="input_box">
+              <label for="pass">Когда и кем выдан:</label>
+              {{ form.identity_document_issued_info }}
+            </div>
+            <div class="input_box">
+              <label for="phone">Телефон (дом):</label>
+              {{ form.home_phone_number }}
+            </div>
+            <div class="input_box">
+              <label for="cell_phone">Телефон (сот):</label>
+              {{ form.own_phone_number }}
+            </div>
+            <div class="input_box">
+              <label for="gmail">Электронная почта:</label>
+              {{ form.email }}
+            </div>
+          </div>
+        </div>
+        <div class="sub_parent">
+          <h3 class="info_text">Загрузите следующие данные:</h3>
+        </div>
+        <div class="form_wrapper">
+          <div class="personal_data">
+            <div class="input_box">
+              <p class="education">Оконченное образовательное учреждение:</p>
+              {{ form.graduation_place }}
+            </div>
+            <div class="input_box">
+              <label for="diploma">Серия и номер аттестата или диплома:</label>
+              {{ form.graduation_certificate_ser }}
+            </div>
+            <div class="input_box">
+              <label for="year_grad">Год окончания:</label>
+              {{ form.graduation_year }}
+            </div>
+          </div>
+          <div class="second_part">
+            <div class="upload_file">
+              <div class="file_design">
+                <p class="instead_label">Загрузите копию паспорта:</p>
+              </div>
+              <div class="file_design">
+                <label for="choose_file">+</label>
+                {{ form.copy_passport }}
+              </div>
+            </div>
+            <div class="upload_file doc_box">
+              <div class="file_design">
+                <p class="instead_label">
+                  Загрузите копию аттестата или диплома:
+                </p>
+              </div>
+              <div class="file_design">
+                <label for="choose_file">+</label>
+                {{ form.copy_graduation_certificate }}
+              </div>
+            </div>
+            <div class="upload_file">
+              <div class="file_design">
+                <p class="instead_label">Загрузите фото 3x4:</p>
+              </div>
+              <div class="file_design">
+                <label for="choose_file">+</label>
+                {{ form.image_three_to_four }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sub_parent">
+          <h1 class="info_text">Выберите одно из двух направлений:</h1>
+        </div>
+        <div class="two_programs form_wrapper">
+          <div class="check_box">
+            <div class="box_same">
+              {{ form.major_choice }}
+            </div>
+            <div id="tech_faculties">
+              <div class="select_faculty">
+                {{ form.technic_major_choice_first }}
+              </div>
+              <div class="select_faculty">
+                {{ form.technic_major_choice_second }}
+              </div>
+              <div class="select_faculty">
+                {{ form.technic_major_choice_third }}
+              </div>
+            </div>
+          </div>
+          <div class="check_box">
+            <div id="econ_faculties">
+              <div class="select_faculty">
+                {{ form.economic_major_choice_first }}
+              </div>
+              <div class="select_faculty">
+                {{ form.economic_major_choice_second }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="statement">
+          <div class="state_text">
+            {{ form.first_confirm }}
+            <p class="final_text">
+              Подтверждаю, что информация, представленная мною в заявлении,
+              является правильной, точной и полной; представленные мной
+              документы являются подлинными.
+            </p>
+          </div>
+          <div class="state_text">
+            {{ form.second_confirm }}
+            <p class="final_text">
+              Согласен(-а) на передачу и обработку своих персональных данных в
+              соответствии с Федеральным законом РФ от 27 июля 2006 года №
+              152-ФЗ «О персональных данных».
+            </p>
+          </div>
+        </div>
+        <div class="last_text">
+          <input type="submit" name="Отправить" class="btn_send" />
+          <p class="approval">
+            Нажимая кнопку «Отправить», Вы даёте согласие на обработку
+            персональных данных и принимаете политику обработки персональных
+            данных
+          </p>
+        </div>
+        <!-- {{ form }} -->
+      </form>
+    </div>
+  </body>
+  <script src="{% static 'main/js/main.js' %}"></script>   
+</html>
