@@ -26,8 +26,8 @@ class MainInfoForm(forms.ModelForm):
 
     class Meta:
         model = MainInfoModel
-        fields = '__all__'
-        
+        exclude = ['major_choice']
+
         widgets = {
             'first_name': TextInput(attrs={
                 "id":"name",
