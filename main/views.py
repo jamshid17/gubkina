@@ -2,12 +2,17 @@ from django.shortcuts import render
 from .forms import MainInfoForm
 from django.contrib import messages
 from django.conf import settings
-import os 
 from PIL import Image
 from PyPDF2 import PdfMerger
-import time 
-import jinja2
+import time, jinja2, os
 from pyhtml2pdf import converter
+from .models import MainInfoModel, email_addresses
+from django.core.mail import send_mail, EmailMessage
+from gubkina.config import CONFIG
+
+
+
+
 base_certificate_path = os.path.join("files", "gr_certificates")
 base_passport_path = os.path.join("files", "passports")
 base_three_to_four_path = os.path.join("files", "three_to_four")
@@ -104,16 +109,51 @@ def home_form_view(request):
     elif request.method == "POST":
         form = MainInfoForm(request.POST, request.FILES)
         if form.is_valid():
+            cleaned_data = form.cleaned_data
+            if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
+                cleaned_data["economic_major_choice_first"] == MainInfoModel.MainEconomicMinorChoices.NONE
+                cleaned_data["economic_major_choice_second"] == MainInfoModel.MainEconomicMinorChoices.NONE
+            else:
+                cleaned_data["technic_major_choice_first"] = MainInfoModel.MainTechnicMinorChoices.NONE
+                cleaned_data["technic_major_choice_second"] = MainInfoModel.MainTechnicMinorChoices.NONE
+                cleaned_data["technic_major_choice_third"] = MainInfoModel.MainTechnicMinorChoices.NONE
+
             # some pdf action is here
             instance = form.save()
-            cleaned_data = form.cleaned_data
             if cleaned_data['home_phone_number']:
                 cleaned_data['home_phone_number'] = cleaned_data['home_phone_number'].as_e164
             cleaned_data['own_phone_number'] = cleaned_data['own_phone_number'].as_e164
-            initial_merged_file_path = convert_pdfs(instance=instance)
-            final_merged_file_path = create_pdf_form(cleaned_data,
-                                                     initial_merged_file_path)
-            print(final_merged_file_path, " fin")
+            # initial_merged_file_path = convert_pdfs(instance=instance)
+            # final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
+            # print(final_merged_file_path, " fin")
+            #emails
+            receiver_email_addresses = []
+            if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
+                technic_major_choice_first_email = email_addresses[cleaned_data["technic_major_choice_first"]]
+                receiver_email_addresses.append(technic_major_choice_first_email)
+                if cleaned_data["technic_major_choice_second"] != MainInfoModel.MainTechnicMinorChoices.NONE:
+                    technic_major_choice_second_email = email_addresses[cleaned_data["technic_major_choice_second"]]
+                    receiver_email_addresses.append(technic_major_choice_second_email)
+                if cleaned_data["technic_major_choice_third"] != MainInfoModel.MainTechnicMinorChoices.NONE:
+                    technic_major_choice_third_email = email_addresses[cleaned_data["technic_major_choice_third"]]
+                    receiver_email_addresses.append(technic_major_choice_third_email)
+            else:  
+                economic_major_choice_first_email = email_addresses[cleaned_data["economic_major_choice_first"]]
+                receiver_email_addresses.append(economic_major_choice_first_email)
+                if cleaned_data["economic_major_choice_second"] != MainInfoModel.MainEconomicMinorChoices.NONE:
+                    economic_major_choice_second_email = email_addresses[cleaned_data["economic_major_choice_second"]]
+                    receiver_email_addresses.append(economic_major_choice_second_email)
+            print(receiver_email_addresses, " email_address")
+            final_merged_file = open('files/merged_pages.pdf', "rb")    
+            email = EmailMessage(
+                "Subject here",
+                "Message",
+                CONFIG.email_host_user,
+                ['jamshidjabbarov17@gmail.com'],
+            )
+            # print(final_merged_file, " con")
+            email.attach(final_merged_file.name, final_merged_file.read(),)
+            email.send()
             messages.success(request, 'Muvaffaqiyatli yaratildi!')
         else:
             errors_dict = form.errors.as_data()
@@ -122,3 +162,5 @@ def home_form_view(request):
         context['form'] = form
 
     return render(request, 'main/main.html', context=context)
+
+                # auth_password=CONFIG.email_host_password,

@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django import forms
 from django.forms import  (
     ClearableFileInput,
@@ -12,6 +13,7 @@ from django.forms import  (
     TimeInput,
     FileInput
 )
+from django.core.exceptions import ValidationError
 from .models import MainInfoModel
 
 
@@ -25,7 +27,6 @@ class MainInfoForm(forms.ModelForm):
 
     class Meta:
         model = MainInfoModel
-        # exclude = ['major_choice']
         fields = '__all__'
 
         widgets = {
@@ -114,6 +115,7 @@ class MainInfoForm(forms.ModelForm):
                 'placeholder': 'Эл.почта'
                 }),
             'graduation_place': Select(attrs={
+                "empty_label":"somethinf",
                 "id": "select_edu",
                 }),
             'graduation_certificate_ser': TextInput(attrs={
@@ -154,32 +156,25 @@ class MainInfoForm(forms.ModelForm):
                 }),
         }
 
-
-        # labels = {
-        #     "first_name" : "Имя",
-        #     "last_name" : "Фамилия",
-        #     "middle_name" : "Отчество",
-        #     "gender" : "Пол",
-        #     'birth_date' : "Дата рождения",
-        #     "nationality" : "Национальность",
-        #     "birth_place" : "Место рождения",
-        #     "living_place" : "Место проживания",
-        #     "citizenship" : "Гражданство",
-        #     "identity_document_name" : "Документ удостоверяющий личность",
-        #     "identity_document_ser" : "Серия",
-        #     "identity_document_id" : "№",
-        #     "identity_document_issued_info" : "Когда и кем выдан",
-        #     "home_phone_number" : "Телефон (дом)",
-        #     "own_phone_number" : "Телефон (сот)",
-        #     "email" : "Электронная почта",
-        #     "graduation_place" : "Оконченное образовательное учреждение",
-        #     "graduation_certificate_ser" : "Серия и номер аттестата или диплома",
-        #     "graduation_year" : "Год окончания:",
-        #     "copy_passport" : "Загрузите копию паспорта:",
-        #     "copy_graduation_certificate" : "Загрузите копию аттестата или диплома:",
-        #     "image_three_to_four" : "Загрузите фото 3x4:",
-        #     "major_choice" : "Выберите одно из двух направлений:",
-        #     "technic_major_choice" : "Техническое направление:",
-        #     "economic_major_choice" : "Экономическое направление:"
-        # }
-        
+    def clean(self):
+        if self.cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
+            if self.cleaned_data["technic_major_choice_first"] == MainInfoModel.MainTechnicMinorChoices.NONE:
+                raise ValidationError(
+                    message="Asosiy yo'nalish uchun biror yo'nalish tanlashi shart!"
+                )
+            if self.cleaned_data["technic_major_choice_second"] != MainInfoModel.MainTechnicMinorChoices.NONE or \
+                self.cleaned_data["technic_major_choice_third"] != MainInfoModel.MainTechnicMinorChoices.NONE:
+                if len(set([self.cleaned_data["technic_major_choice_first"], self.cleaned_data["technic_major_choice_second"], self.cleaned_data["technic_major_choice_third"]])) != 3:
+                    raise ValidationError(
+                        message="Tanlangan yunalishlar bir xil bo'lishi mumkin emas!"
+                    )
+        elif self.cleaned_data["major_choice"] == MainInfoModel.MajorChoices.ECONOMIC:            
+            if self.cleaned_data["economic_major_choice_first"] == MainInfoModel.MainEconomicMinorChoices.NONE:
+                raise ValidationError(
+                    message="Asosiy yo'nalish uchun biror yo'nalish tanlashi shart!"
+                )
+            if self.cleaned_data["economic_major_choice_first"] == self.cleaned_data["economic_major_choice_second"]:
+                raise ValidationError(
+                    message="Tanlangan yunalishlar bir xil bo'lishi mumkin emas!"
+                )
+        return super().clean()

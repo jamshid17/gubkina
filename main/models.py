@@ -22,7 +22,8 @@ class MainInfoModel(models.Model):
         TECHNIC = 'Technic', 'Техническое направление'
         ECONOMIC = 'Economic', 'Экономическое направление'
 
-    class TechnicMinorChoices(models.TextChoices):
+    class MainTechnicMinorChoices(models.TextChoices):
+        NONE = "None", "Выберите (приоритетный) профиль подготовки"
         GI = "GI", "Геофизические методы исследования скважин (ГИ) (специалитет)"
         GC = "GC", "Цифровой геоинжиниринг (ГЦ) (специалитет)"
         RB = "RB", "Бурение нефтяных и газовых скважин (РБ)"
@@ -33,9 +34,31 @@ class MainInfoModel(models.Model):
         RT = "RT", "Технология бурения нефтяных и газовых скважин на суше и море (РТ) (специалитет)"
         RS = "RS", "Разработка и эксплуатация нефтяных и газовых месторождений (РС) (специалитет)"
 
-    class EconomicMinorChoices(models.TextChoices):
+    class SecondaryTechnicMinorChoices(models.TextChoices):
+        NONE = "None", "Выберите второй дополнительный профиль подготовки"
+        GI = "GI", "Геофизические методы исследования скважин (ГИ) (специалитет)"
+        GC = "GC", "Цифровой геоинжиниринг (ГЦ) (специалитет)"
+        RB = "RB", "Бурение нефтяных и газовых скважин (РБ)"
+        OS = "OS", "Эксплуатация и обслуживание объектов добычи нефти (РН)"
+        DG = "DG", "Эксплуатация и обслуживание объектов добычи газа, газоконденсата и подземных хранилищ (РГ)"
+        TS = "TS", "Сооружение и ремонт газонефтепроводов и газонефтехранилищ (ТС)"
+        TP = "TP", "Эксплуатация и обслуживание объектов транспорта и хранения нефти, газа и продуктов переработки (ТП)"
+        RT = "RT", "Технология бурения нефтяных и газовых скважин на суше и море (РТ) (специалитет)"
+        RS = "RS", "Разработка и эксплуатация нефтяных и газовых месторождений (РС) (специалитет)"
+
+
+    class MainEconomicMinorChoices(models.TextChoices):
+        NONE = "None" , "Выберите (приоритетный) профиль подготовки"
         EE = "EE", "Экономика и проекты устойчивого развития энергетики (ЭЭ)"
         EM = "EM", "Управление бизнесом в энергетике (ЭМ)"
+
+
+    class SecondaryEconomicMinorChoices(models.TextChoices):
+        NONE = "None" , "Выберите второй дополнительный профиль подготовки"
+        EE = "EE", "Экономика и проекты устойчивого развития энергетики (ЭЭ)"
+        EM = "EM", "Управление бизнесом в энергетике (ЭМ)"
+
+
 
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
@@ -54,8 +77,11 @@ class MainInfoModel(models.Model):
     own_phone_number = PhoneNumberField()
     email = models.EmailField()
     # graduation fields
-    graduation_place = models.CharField(max_length=20,
-                                        choices=GraduationPlaceChoices.choices)
+    graduation_place = models.CharField(
+        max_length=20,
+        choices=GraduationPlaceChoices.choices, 
+        default=GraduationPlaceChoices.SCHOOL
+    )
     graduation_certificate_ser = models.CharField(max_length=50)
     graduation_year = models.IntegerField(choices=year_choices())
     copy_passport = models.FileField(
@@ -81,34 +107,47 @@ class MainInfoModel(models.Model):
     )
     technic_major_choice_first = models.CharField(
         max_length=200,
-        choices=TechnicMinorChoices.choices,
-        null=True, blank=True
+        choices=MainTechnicMinorChoices.choices,
+        default=MainTechnicMinorChoices.NONE,
     )
     technic_major_choice_second = models.CharField(
         max_length=200,
-        choices=TechnicMinorChoices.choices,
-        null=True,
-        blank=True
+        choices=SecondaryTechnicMinorChoices.choices,
+        default=SecondaryTechnicMinorChoices.NONE,
     )
     technic_major_choice_third = models.CharField(
         max_length=200,
-        choices=TechnicMinorChoices.choices,
-        null=True,
-        blank=True
+        choices=SecondaryTechnicMinorChoices.choices,
+        default=SecondaryTechnicMinorChoices.NONE,
     )
     economic_major_choice_first = models.CharField(
         max_length=200,
-        choices=EconomicMinorChoices.choices,
-        null=True, blank=True
+        choices=MainEconomicMinorChoices.choices,
+        default=MainEconomicMinorChoices.choices,
     )
 
     economic_major_choice_second = models.CharField(
         max_length=200,
-        choices=EconomicMinorChoices.choices,
-        null=True, blank=True
+        choices=SecondaryEconomicMinorChoices.choices,
+        default=SecondaryEconomicMinorChoices.choices,
     )
     # confirming
     first_confirm = models.BooleanField()
     second_confirm = models.BooleanField()
 
-# {'first_name': 'Jamshid', 'last_name': 'Jabborov', 'middle_name': '123', 'gender': 'Male', 'birth_date': datetime.date(2023, 6, 14), 'nationality': '123', 'birth_place': '123', 'living_place': '123', 'citizenship': '123', 'identity_document_name': '123', 'identity_document_ser': '123', 'identity_document_id': '123', 'identity_document_issued_info': '123', 'home_phone_number': PhoneNumber(country_code=998, national_number=990315632, extension=None, italian_leading_zero=None, number_of_leading_zeros=None, country_code_source=1, preferred_domestic_carrier_code=None), 'own_phone_number': PhoneNumber(country_code=998, national_number=990314532, extension=None, italian_leading_zero=None, number_of_leading_zeros=None, country_code_source=1, preferred_domestic_carrier_code=None), 'email': 'jamshidjabbarov17@gmail.com', 'graduation_place': 'School', 'graduation_certificate_ser': '123', 'graduation_year': 2000, 'copy_passport': <InMemoryUploadedFile: 2023-06-01 22.27.24.jpg (image/jpeg)>, 'copy_graduation_certificate': <InMemoryUploadedFile: photo_2023-05-31 17.30.29.jpeg (image/jpeg)>, 'image_three_to_four': <InMemoryUploadedFile: photo_2023-05-31 17.30.29.jpeg (image/jpeg)>, 'technic_major_choice_first': 'GC', 'technic_major_choice_second': None, 'technic_major_choice_third': None, 'economic_major_choice_first': None, 'economic_major_choice_second': None, 'first_confirm': False, 'second_confirm': False}
+
+email_addresses = {
+    "GI":"gi@gubkin.uz",
+    "GC":"gc@gubkin.uz",
+    "RB":"rb@gubkin.uz",
+    "OS":"os@gubkin.uz",
+    "DG":"df@gubkin.uz",
+    "TS":"ts@gubkin.uz",
+    "TP":"tp@gubkin.uz",
+    "RT":"rt@gubkin.uz",
+    "RS":"rs@gubkin.uz",
+    "EE":"ee@gubkin.uz",
+    "EM":"em@gubkin.uz"
+
+}
+

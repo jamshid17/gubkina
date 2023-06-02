@@ -25,7 +25,6 @@ class Config:
         self.email_host = config("email_host", cast=str)
         self.email_host_user = config("email_host_user", cast=str)
         self.email_host_password = config("email_host_password", cast=str)
-        self.email_guest = config("email_guest", cast=str)
 
         self.email_port = config("email_port", cast=str)
         self.domain = config("domain", cast=str)
