@@ -167,7 +167,7 @@ def home_form_view(request):
                 if cleaned_data["economic_major_choice_second"] != MainInfoModel.MainEconomicMinorChoices.NONE:
                     economic_major_choice_second_email = email_addresses[cleaned_data["economic_major_choice_second"]]
                     receiver_email_addresses.append(economic_major_choice_second_email)
-
+            print(receiver_email_addresses, " receiver")
             initial_merged_file_path = convert_pdfs(instance=instance)
             final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
             print(final_merged_file_path, " fin")
