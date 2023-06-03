@@ -139,23 +139,23 @@ class MainInfoForm(forms.ModelForm):
                 "class": "custom-file-input"
                 }),
             'major_choice': RadioSelect(attrs={
-                "style": "max-width: 400px;",
+                "style": "max-width: 100%;",
                 "class": "faculty_type"
             }),
             'technic_major_choice_first': Select(attrs={
-                "style": "max-width: 600px; height: 40px",
+                "style": "max-width: 100%; height: 40px",
                 }),
             'technic_major_choice_second': Select(attrs={
-                "style": "max-width: 600px; height: 40px"
+                "style": "max-width: 100%; height: 40px"
                 }),
             'technic_major_choice_third': Select(attrs={
-                "style": "max-width: 600px; height: 40px"
+                "style": "max-width: 100%; height: 40px"
                 }),
             'economic_major_choice_first': Select(attrs={
-                "style": "max-width: 400px; height: 40px"
+                "style": "max-width: 100%; height: 40px"
                 }),
             'economic_major_choice_second': Select(attrs={
-                "style": "max-width: 400px; height: 40px"
+                "style": "max-width: 100%; height: 40px"
                 }),
         }
 

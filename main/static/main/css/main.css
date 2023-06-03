@@ -211,6 +211,8 @@ ul li {
   background-color: #521213;
   border-radius: 3px;
   padding: 7px 60px;
+  max-width: 0;
+  display: flex;
   outline: none;
   white-space: nowrap;
   -webkit-user-select: none;
@@ -527,6 +529,9 @@ ul li {
 @media screen and (max-width: 768px) {
   .container {
     max-width: 981px;
+  }
+  #id_major_choice {
+    flex-direction: column;
   }
 }
 @media screen and (max-width: 502px) {
