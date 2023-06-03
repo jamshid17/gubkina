@@ -198,6 +198,31 @@ ul li {
   margin: 1.5rem auto;
   font-size: 1rem;
 }
+.custom-file-input::-webkit-file-upload-button {
+  display: none;
+}
+.custom-file-input::before {
+  content: '+';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: none;
+  margin-right: 10px;
+  color: #fff;
+  background-color: #521213;
+  border-radius: 3px;
+  padding: 7px 60px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
 @media screen and (max-width: 1220px) {
   .container,
   .form_wrapper,

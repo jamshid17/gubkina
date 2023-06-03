@@ -109,11 +109,20 @@ def home_form_view(request):
     elif request.method == "POST":
         form = MainInfoForm(request.POST, request.FILES)
         if form.is_valid():
+            instance = form.save(commit=False)
             cleaned_data = form.cleaned_data
-            if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
+            cleaned_data['gender'] = instance.get_gender_display()
+            cleaned_data['graduation_place'] = instance.get_graduation_place_display()
+            if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:
+                cleaned_data['technic_major_choice_first_name'] = instance.get_technic_major_choice_first_display()
+                cleaned_data['technic_major_choice_second_name'] = instance.get_technic_major_choice_second_display()
+                cleaned_data['technic_major_choice_third_name'] = instance.get_technic_major_choice_third_display()
                 cleaned_data["economic_major_choice_first"] == MainInfoModel.MainEconomicMinorChoices.NONE
                 cleaned_data["economic_major_choice_second"] == MainInfoModel.MainEconomicMinorChoices.NONE
             else:
+
+                cleaned_data['economic_major_choice_first_name'] = instance.get_economic_major_choice_first_display()
+                cleaned_data['economic_major_choice_second_name'] = instance.get_economic_major_choice_second_display()
                 cleaned_data["technic_major_choice_first"] = MainInfoModel.MainTechnicMinorChoices.NONE
                 cleaned_data["technic_major_choice_second"] = MainInfoModel.MainTechnicMinorChoices.NONE
                 cleaned_data["technic_major_choice_third"] = MainInfoModel.MainTechnicMinorChoices.NONE
@@ -144,16 +153,19 @@ def home_form_view(request):
                     economic_major_choice_second_email = email_addresses[cleaned_data["economic_major_choice_second"]]
                     receiver_email_addresses.append(economic_major_choice_second_email)
             print(receiver_email_addresses, " email_address")
-            final_merged_file = open('files/merged_pages.pdf', "rb")    
-            email = EmailMessage(
-                "Subject here",
-                "Message",
-                CONFIG.email_host_user,
-                ['jamshidjabbarov17@gmail.com'],
-            )
-            # print(final_merged_file, " con")
-            email.attach(final_merged_file.name, final_merged_file.read(),)
-            email.send()
+            # final_merged_file = open('files/merged_pages.pdf', "rb")
+            initial_merged_file_path = convert_pdfs(instance=instance)
+            final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
+            print(final_merged_file_path, " fin")
+            # email = EmailMessage(
+            #     "Subject here",
+            #     "Message",
+            #     CONFIG.email_host_user,
+            #     ['jamshidjabbarov17@gmail.com'],
+            # )
+            # # print(final_merged_file, " con")
+            # email.attach(final_merged_file.name, final_merged_file.read(),)
+            # email.send()
             messages.success(request, 'Muvaffaqiyatli yaratildi!')
         else:
             errors_dict = form.errors.as_data()

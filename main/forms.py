@@ -128,12 +128,15 @@ class MainInfoForm(forms.ModelForm):
                 }),
             'copy_passport': ClearableFileInput(attrs={
                 "id": "choose_file",
+                "class": "custom-file-input"
                 }),
             'copy_graduation_certificate': ClearableFileInput(attrs={
                 "id": "choose_file",
+                "class": "custom-file-input"
                 }),
             'image_three_to_four': ClearableFileInput(attrs={
                 "id": "choose_file",
+                "class": "custom-file-input"
                 }),
             'major_choice': RadioSelect(attrs={
                 "style": "max-width: 400px;",
