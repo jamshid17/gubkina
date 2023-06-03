@@ -21,9 +21,13 @@ DEBUG = CONFIG.debug
 
 ALLOWED_HOSTS = CONFIG.allowed_hosts
 
-
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = CONFIG.email_host
+EMAIL_USE_TLS = True
+EMAIL_PORT = CONFIG.email_port
 EMAIL_HOST_USER = CONFIG.email_host_user
 EMAIL_HOST_PASSWORD = CONFIG.email_host_password
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from .forms import MainInfoForm
 from django.contrib import messages
 from django.conf import settings
@@ -101,6 +101,21 @@ def create_pdf_form(context, merged_file_path):
     return final_merged_file_path
 
 
+def get_final_major_choice_name(cleaned_data):
+    final_major_choice_name = ''
+    if cleaned_data['major_choice'] == MainInfoModel.MajorChoices.TECHNIC:
+        final_major_choice_name += cleaned_data['technic_major_choice_first_name']
+        if cleaned_data['technic_major_choice_second'] != MainInfoModel.MainTechnicMinorChoices.NONE:
+            final_major_choice_name += ',  ' + cleaned_data['technic_major_choice_second_name']
+        if cleaned_data['technic_major_choice_third'] != MainInfoModel.MainTechnicMinorChoices.NONE:
+            final_major_choice_name += ',  ' + cleaned_data['technic_major_choice_third_name']       
+    else:
+        final_major_choice_name += cleaned_data['economic_major_choice_first_name']
+        if cleaned_data['economic_major_choice_second'] != MainInfoModel.MainTechnicMinorChoices.NONE:
+            final_major_choice_name += ',  ' + cleaned_data['economic_major_choice_second_name']
+    return final_major_choice_name
+
+
 def home_form_view(request):
     context = {}
     if request.method == "GET":
@@ -126,7 +141,7 @@ def home_form_view(request):
                 cleaned_data["technic_major_choice_first"] = MainInfoModel.MainTechnicMinorChoices.NONE
                 cleaned_data["technic_major_choice_second"] = MainInfoModel.MainTechnicMinorChoices.NONE
                 cleaned_data["technic_major_choice_third"] = MainInfoModel.MainTechnicMinorChoices.NONE
-
+            cleaned_data['final_major_choice_name'] = get_final_major_choice_name(cleaned_data)
             # some pdf action is here
             instance = form.save()
             if cleaned_data['home_phone_number']:
@@ -152,20 +167,20 @@ def home_form_view(request):
                 if cleaned_data["economic_major_choice_second"] != MainInfoModel.MainEconomicMinorChoices.NONE:
                     economic_major_choice_second_email = email_addresses[cleaned_data["economic_major_choice_second"]]
                     receiver_email_addresses.append(economic_major_choice_second_email)
-            print(receiver_email_addresses, " email_address")
-            # final_merged_file = open('files/merged_pages.pdf', "rb")
+
             initial_merged_file_path = convert_pdfs(instance=instance)
             final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
             print(final_merged_file_path, " fin")
-            # email = EmailMessage(
-            #     "Subject here",
-            #     "Message",
-            #     CONFIG.email_host_user,
-            #     ['jamshidjabbarov17@gmail.com'],
-            # )
-            # # print(final_merged_file, " con")
-            # email.attach(final_merged_file.name, final_merged_file.read(),)
-            # email.send()
+
+            email = EmailMessage(
+                subject="Subject",
+                body="",
+                from_email=CONFIG.email_host_user,
+                to=['jamshidjabbarov17@gmail.com'],
+            )
+            email.attach_file(final_merged_file_path)
+            email.send()
+
             messages.success(request, 'Muvaffaqiyatli yaratildi!')
         else:
             errors_dict = form.errors.as_data()
@@ -176,3 +191,26 @@ def home_form_view(request):
     return render(request, 'main/main.html', context=context)
 
                 # auth_password=CONFIG.email_host_password,
+
+def test(request):
+    email = EmailMessage(
+        subject="Subject",
+        body="Message",
+        from_email=CONFIG.email_host_user,
+        to=['jamshidjabbarov17@gmail.com']
+    )
+    email.attach_file('files/template.html')
+    email.send()
+    # send_mail(
+    #     "Subject here",
+    #     'message',
+    #     CONFIG.email_host,
+    #     ['jamshidjabbarov17@gmail.com'],
+    #     fail_silently=False,
+    #     auth_user=CONFIG.email_host_user,
+    #     auth_password=CONFIG.email_host_password,
+    # )
+    # email = EmailMessage(
+        
+    # )
+    return HttpResponse("<h1>javob</h1>")
