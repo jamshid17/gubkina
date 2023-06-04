@@ -32,6 +32,7 @@ class Config:
         self.activation_url = config("activation_url", cast=str)
         self.reset_password_url = config("reset_password_url", cast=str)
 
+
 logger = logging.getLogger("config")
 
 try:

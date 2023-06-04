@@ -7,7 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" href="{% static 'main/imgs/logo.png' %}" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="{% static 'main/css/main.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.10/dist/sweetalert2.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="{% static 'main/css/main.css' %}">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.10/dist/sweetalert2.all.min.js"></script>
+
     <title>Онлайн подача документов</title>
   </head>
   <body>
@@ -30,9 +33,19 @@
     <div>
       {% if messages %}
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-          </div>
+            {% if message.tags == "warning" %}
+                <script>
+                    Swal.fire(
+                      "Что-то пошло не так :(", "{{message}}", "warning"
+                    )
+                </script>
+            {% else %}
+                <script>
+                    Swal.fire(
+                          "Успешно", "{{message}}", "success"
+                        )
+                </script>
+            {% endif %}
         {% endfor %}
       {% endif %}
     </div>
@@ -222,5 +235,5 @@
       </form>
     </div>
   </body>
-  <script src="{% static 'main/js/main.js' %}"></script>   
+  <script src="{% static 'main/js/main.js' %}"></script>
 </html>
