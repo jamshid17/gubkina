@@ -160,6 +160,9 @@ class MainInfoForm(forms.ModelForm):
         }
 
     def clean(self):
+        print(self.cleaned_data, " cleand")
+        if not self.cleaned_data['first_confirm'] or not self.cleaned_data['second_confirm']:
+            raise ValidationError("Pastdagi ikkita aggreementga rozi bo'lishingiz kerak!")
         if self.cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
             if self.cleaned_data["technic_major_choice_first"] == MainInfoModel.MainTechnicMinorChoices.NONE:
                 raise ValidationError(
