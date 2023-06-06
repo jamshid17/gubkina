@@ -182,7 +182,7 @@
 
     .info_text,
     .last_text {
-      margin: 3rem auto;
+      margin: 2rem auto;
     }
 
     .form_wrapper {
@@ -812,6 +812,11 @@
             <label for="place">Победитель Республиканских олимпиад:</label>
             <span class="info__text">{{ is_olymp_winner }}</span>
           </div>
+          <div class="input_box">
+            <label for="place">Оконченное образовательное учреждение:</label>
+            <span class="info__text">{{ graduation_place }}</span>
+          </div>
+         
         </div>
         <div class="second_part">
           <div class="input_box">
@@ -848,6 +853,15 @@
             <label for="gmail">Электронная почта:</label>
             <span class="info__text">{{ email }}</span>
 
+          </div>
+          <br>
+          <div class="input_box">
+            <label for="place">Серия и номер аттестата или диплома:</label>
+            <span class="info__text">{{ graduation_certificate_ser }}</span>
+          </div>
+          <div class="input_box">
+            <label for="place">Год окончания:</label>
+            <span class="info__text">{{ graduation_year }}</span>
           </div>
         </div>
       </div>
