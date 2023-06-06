@@ -35,7 +35,7 @@ class MainInfoModel(models.Model):
         RS = "RS", "Разработка и эксплуатация нефтяных и газовых месторождений (РС) (специалитет)"
 
     class SecondaryTechnicMinorChoices(models.TextChoices):
-        NONE = "None", "Выберите второй дополнительный профиль подготовки"
+        NONE = "None", "Выберите дополнительный профиль подготовки"
         GI = "GI", "Геофизические методы исследования скважин (ГИ) (специалитет)"
         GC = "GC", "Цифровой геоинжиниринг (ГЦ) (специалитет)"
         RB = "RB", "Бурение нефтяных и газовых скважин (РБ)"
@@ -46,12 +46,10 @@ class MainInfoModel(models.Model):
         RT = "RT", "Технология бурения нефтяных и газовых скважин на суше и море (РТ) (специалитет)"
         RS = "RS", "Разработка и эксплуатация нефтяных и газовых месторождений (РС) (специалитет)"
 
-
     class MainEconomicMinorChoices(models.TextChoices):
         NONE = "None" , "Выберите (приоритетный) профиль подготовки"
         EE = "EE", "Экономика и проекты устойчивого развития энергетики (ЭЭ)"
         EM = "EM", "Управление бизнесом в энергетике (ЭМ)"
-
 
     class SecondaryEconomicMinorChoices(models.TextChoices):
         NONE = "None" , "Выберите второй дополнительный профиль подготовки"
@@ -103,7 +101,7 @@ class MainInfoModel(models.Model):
     major_choice = models.CharField(
         max_length=200,
         choices=MajorChoices.choices,
-        default=MajorChoices.TECHNIC
+        default=None
     )
     technic_major_choice_first = models.CharField(
         max_length=200,
@@ -137,16 +135,17 @@ class MainInfoModel(models.Model):
 
 
 email_addresses = {
-    "GI":"gi@gubkin.uz",
-    "GC":"gc@gubkin.uz",
-    "RB":"rb@gubkin.uz",
-    "OS":"rn@gubkin.uz",
-    "DG":"rg@gubkin.uz",
-    "TS":"ts@gubkin.uz",
-    "TP":"tp@gubkin.uz",
-    "RT":"rt@gubkin.uz",
-    "RS":"rs@gubkin.uz",
-    "EE":"ee@gubkin.uz",
-    "EM":"em@gubkin.uz"
+    "GI":"ilhomhafizov6@gmail.com",
+    "GC":"ilhomhafizov6@gmail.com",
+    # "GI":"gi@gubkin.uz",
+    # "GC":"gc@gubkin.uz",
+    # "RB":"rb@gubkin.uz",
+    # "OS":"rn@gubkin.uz",
+    # "DG":"rg@gubkin.uz",
+    # "TS":"ts@gubkin.uz",
+    # "TP":"tp@gubkin.uz",
+    # "RT":"rt@gubkin.uz",
+    # "RS":"rs@gubkin.uz",
+    # "EE":"ee@gubkin.uz",
+    # "EM":"em@gubkin.uz"
 }
-

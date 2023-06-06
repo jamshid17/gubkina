@@ -3,15 +3,11 @@ from django import forms
 from django.forms import  (
     ClearableFileInput,
     FileField,
-    CharField,
-    Textarea,
     TextInput, 
     EmailInput, 
     Select, 
     RadioSelect,
     DateInput,
-    TimeInput,
-    FileInput
 )
 from django.core.exceptions import ValidationError
 from .models import MainInfoModel
@@ -115,7 +111,7 @@ class MainInfoForm(forms.ModelForm):
                 'placeholder': 'Эл.почта'
                 }),
             'graduation_place': Select(attrs={
-                "empty_label":"somethinf",
+                "empty_label": "something",
                 "id": "select_edu",
                 }),
             'graduation_certificate_ser': TextInput(attrs={
@@ -140,7 +136,7 @@ class MainInfoForm(forms.ModelForm):
                 }),
             'major_choice': RadioSelect(attrs={
                 "style": "max-width: 100%;",
-                "class": "faculty_type"
+                "class": "faculty_type",
             }),
             'technic_major_choice_first': Select(attrs={
                 "style": "max-width: 100%; height: 40px",
@@ -160,27 +156,26 @@ class MainInfoForm(forms.ModelForm):
         }
 
     def clean(self):
-        print(self.cleaned_data, " cleand")
         if not self.cleaned_data['first_confirm'] or not self.cleaned_data['second_confirm']:
-            raise ValidationError("Pastdagi ikkita aggreementga rozi bo'lishingiz kerak!")
+            raise ValidationError("Пожалуйста, подтвердите, что информация, представленная вам в заявлении, является правильной")
         if self.cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
             if self.cleaned_data["technic_major_choice_first"] == MainInfoModel.MainTechnicMinorChoices.NONE:
                 raise ValidationError(
-                    message="Asosiy yo'nalish uchun biror yo'nalish tanlashi shart!"
+                    message="Вы должны выбирать основное направление!"
                 )
             if self.cleaned_data["technic_major_choice_second"] != MainInfoModel.MainTechnicMinorChoices.NONE or \
                 self.cleaned_data["technic_major_choice_third"] != MainInfoModel.MainTechnicMinorChoices.NONE:
                 if len(set([self.cleaned_data["technic_major_choice_first"], self.cleaned_data["technic_major_choice_second"], self.cleaned_data["technic_major_choice_third"]])) != 3:
                     raise ValidationError(
-                        message="Tanlangan yunalishlar bir xil bo'lishi mumkin emas!"
+                        message="Выбранные Вами направления являются одинаковыми!"
                     )
         elif self.cleaned_data["major_choice"] == MainInfoModel.MajorChoices.ECONOMIC:            
             if self.cleaned_data["economic_major_choice_first"] == MainInfoModel.MainEconomicMinorChoices.NONE:
                 raise ValidationError(
-                    message="Asosiy yo'nalish uchun biror yo'nalish tanlashi shart!"
+                    message="Вы должны выбирать основное направление!"
                 )
             if self.cleaned_data["economic_major_choice_first"] == self.cleaned_data["economic_major_choice_second"]:
                 raise ValidationError(
-                    message="Tanlangan yunalishlar bir xil bo'lishi mumkin emas!"
+                    message="Выбранные Вами направления являются одинаковыми!"
                 )
         return super().clean()
