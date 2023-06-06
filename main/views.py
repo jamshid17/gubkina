@@ -23,9 +23,6 @@ def convert_pdfs(instance):
     certificate_path = str(instance.copy_graduation_certificate)
     passport_path = str(instance.copy_passport)
     three_to_four_path = str(instance.image_three_to_four)
-    print(certificate_path, " certificate_path")
-    print(passport_path, " passport_path")
-    print(three_to_four_path, " three_to_four_path")
 
     merger = PdfMerger()
 
@@ -61,9 +58,11 @@ def convert_pdfs(instance):
                                                 "samples", f"{now}.pdf")
         converted_file.save(final_three_to_four_path)
     merger.append(final_three_to_four_path)
-    print(final_certificate_path,)
-    print(final_passport_path,)
-    print(final_three_to_four_path,)
+    
+    os.remove(os.path.abspath(final_certificate_path))
+    os.remove(os.path.abspath(final_passport_path))
+    os.remove(os.path.abspath(final_three_to_four_path))
+
     merged_file_path = "files/merged_pages.pdf"
     merger.write(merged_file_path)
 
@@ -147,9 +146,6 @@ def home_form_view(request):
             if cleaned_data['home_phone_number']:
                 cleaned_data['home_phone_number'] = cleaned_data['home_phone_number'].as_e164
             cleaned_data['own_phone_number'] = cleaned_data['own_phone_number'].as_e164
-            # initial_merged_file_path = convert_pdfs(instance=instance)
-            # final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
-            # print(final_merged_file_path, " fin")
             #emails
             receiver_email_addresses = []
             if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
@@ -158,10 +154,8 @@ def home_form_view(request):
             else:  
                 economic_major_choice_first_email = email_addresses[cleaned_data["economic_major_choice_first"]]
                 receiver_email_addresses.append(economic_major_choice_first_email)
-            print(receiver_email_addresses, " receiver")
             initial_merged_file_path = convert_pdfs(instance=instance)
             final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
-            print(final_merged_file_path, " fin")
 
             email = EmailMessage(
                 subject="Subject",
@@ -175,10 +169,9 @@ def home_form_view(request):
             messages.success(request, 'Muvaffaqiyatli yaratildi!')
         else:
             errors_dict = form.errors.as_data()
-            first_error_message = errors_dict[list(errors_dict.keys())[0]][0].message
+            first_error_message = errors_dict[list(errors_dict.keys())[0]][0].messages[0]
             messages.warning(request, first_error_message)
         context['form'] = form
 
     return render(request, 'main/main.html', context=context)
 
-                # auth_password=CONFIG.email_host_password,
