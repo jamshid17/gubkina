@@ -55,8 +55,12 @@ class MainInfoModel(models.Model):
         NONE = "None" , "Выберите второй дополнительный профиль подготовки"
         EE = "EE", "Экономика и проекты устойчивого развития энергетики (ЭЭ)"
         EM = "EM", "Управление бизнесом в энергетике (ЭМ)"
+    
 
-
+    class NeedDormitoryChoices(models.TextChoices):
+        YES = "Yes", "Да"
+        NO = "No", "Нет"
+        
 
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
@@ -128,6 +132,11 @@ class MainInfoModel(models.Model):
         max_length=200,
         choices=SecondaryEconomicMinorChoices.choices,
         default=SecondaryEconomicMinorChoices.choices,
+    )
+    need_dormitory = models.CharField(
+        max_length=5,
+        choices=NeedDormitoryChoices.choices,
+        default=NeedDormitoryChoices.NO
     )
     # confirming
     first_confirm = models.BooleanField()
