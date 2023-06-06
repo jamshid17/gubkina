@@ -155,18 +155,9 @@ def home_form_view(request):
             if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
                 technic_major_choice_first_email = email_addresses[cleaned_data["technic_major_choice_first"]]
                 receiver_email_addresses.append(technic_major_choice_first_email)
-                if cleaned_data["technic_major_choice_second"] != MainInfoModel.MainTechnicMinorChoices.NONE:
-                    technic_major_choice_second_email = email_addresses[cleaned_data["technic_major_choice_second"]]
-                    receiver_email_addresses.append(technic_major_choice_second_email)
-                if cleaned_data["technic_major_choice_third"] != MainInfoModel.MainTechnicMinorChoices.NONE:
-                    technic_major_choice_third_email = email_addresses[cleaned_data["technic_major_choice_third"]]
-                    receiver_email_addresses.append(technic_major_choice_third_email)
             else:  
                 economic_major_choice_first_email = email_addresses[cleaned_data["economic_major_choice_first"]]
                 receiver_email_addresses.append(economic_major_choice_first_email)
-                if cleaned_data["economic_major_choice_second"] != MainInfoModel.MainEconomicMinorChoices.NONE:
-                    economic_major_choice_second_email = email_addresses[cleaned_data["economic_major_choice_second"]]
-                    receiver_email_addresses.append(economic_major_choice_second_email)
             print(receiver_email_addresses, " receiver")
             initial_merged_file_path = convert_pdfs(instance=instance)
             final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
@@ -191,26 +182,3 @@ def home_form_view(request):
     return render(request, 'main/main.html', context=context)
 
                 # auth_password=CONFIG.email_host_password,
-
-def test(request):
-    email = EmailMessage(
-        subject="Subject",
-        body="Message",
-        from_email=CONFIG.email_host_user,
-        to=['jamshidjabbarov17@gmail.com']
-    )
-    email.attach_file('files/template.html')
-    email.send()
-    # send_mail(
-    #     "Subject here",
-    #     'message',
-    #     CONFIG.email_host,
-    #     ['jamshidjabbarov17@gmail.com'],
-    #     fail_silently=False,
-    #     auth_user=CONFIG.email_host_user,
-    #     auth_password=CONFIG.email_host_password,
-    # )
-    # email = EmailMessage(
-        
-    # )
-    return HttpResponse("<h1>javob</h1>")
