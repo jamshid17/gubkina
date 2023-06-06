@@ -135,6 +135,7 @@ ul li {
 }
 .sub_parent {
   font-size: 1.6rem;
+  margin-bottom: 30px;
 }
 .doc_box {
   margin: 2rem auto;
@@ -176,6 +177,7 @@ ul li {
 .radio_two {
   text-align: center;
 }
+
 .statement .state_text {
   display: flex;
   align-items: center;
@@ -224,6 +226,14 @@ ul li {
 }
 .custom-file-input:active::before {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.tech_box {
+  display: none;
+}
+
+.eco_box {
+  display: none;
 }
 @media screen and (max-width: 1220px) {
   .container,

@@ -42,7 +42,7 @@
             {% else %}
                 <script>
                     Swal.fire(
-                          "Успешно", "{{message}}", "success"
+                          "Уважаемый абитуриент!", "{{message}}", "success"
                         )
                 </script>
             {% endif %}
@@ -160,7 +160,7 @@
             <div class="upload_file doc_box">
               <div class="file_design">
                 <p class="instead_label">
-                  Загрузите копию аттестата или диплома:
+                  Загрузите копию аттестата или диплома (справку ЕГЭ):
                 </p>
               </div>
               <div class="file_design">
@@ -205,23 +205,24 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>  
+        <hr />
         <div class="statement">
           <div class="state_text">
             {{ form.first_confirm }}
-            <p class="final_text">
+            <label for="id_first_confirm" class="final_text">
               Подтверждаю, что информация, представленная мною в заявлении,
               является правильной, точной и полной; представленные мной
               документы являются подлинными.
-            </p>
+            </label>
           </div>
           <div class="state_text">
             {{ form.second_confirm }}
-            <p class="final_text">
+            <label for="id_second_confirm" class="final_text">
               Согласен(-а) на передачу и обработку своих персональных данных в
               соответствии с Федеральным законом РФ от 27 июля 2006 года №
               152-ФЗ «О персональных данных».
-            </p>
+            </label>
           </div>
         </div>
         <div class="last_text">

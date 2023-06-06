@@ -158,21 +158,19 @@ def home_form_view(request):
             else:  
                 economic_major_choice_first_email = email_addresses[cleaned_data["economic_major_choice_first"]]
                 receiver_email_addresses.append(economic_major_choice_first_email)
-            print(receiver_email_addresses, " receiver")
             initial_merged_file_path = convert_pdfs(instance=instance)
             final_merged_file_path = create_pdf_form(cleaned_data, initial_merged_file_path)
-            print(final_merged_file_path, " fin")
 
             email = EmailMessage(
                 subject="Subject",
                 body="",
                 from_email=CONFIG.email_host_user,
-                to=['jamshidjabbarov17@gmail.com'],
+                to=receiver_email_addresses,
             )
             email.attach_file(final_merged_file_path)
             email.send()
             context['form'] = MainInfoForm()
-            messages.success(request, 'Muvaffaqiyatli yaratildi!')
+            messages.success(request, 'Ваше заявление отправлено и обрабатывается технической группой приемной комиссии. Ожидайте смс-уведомление с регистрационным номером в течении 24 часов.')
         else:
             errors_dict = form.errors.as_data()
             first_error_message = errors_dict[list(errors_dict.keys())[0]][0].message
@@ -180,5 +178,3 @@ def home_form_view(request):
         context['form'] = form
 
     return render(request, 'main/main.html', context=context)
-
-                # auth_password=CONFIG.email_host_password,
