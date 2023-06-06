@@ -10,13 +10,14 @@ def year_choices():
 
 class MainInfoModel(models.Model):
     class GenderChoices(models.TextChoices):
-        MALE = 'Male', 'Мужчина'
-        FEMALE = 'Female', 'Женщина'
+        MALE = 'Male', 'Мужской'
+        FEMALE = 'Female', 'Женский'
 
     class GraduationPlaceChoices(models.TextChoices):
         SCHOOL = "School", "Школа"
         COLLEGE = "College", "Колледж"
         LYCEUM = "Lyceum", "Лицей"
+        UNIVER = "Univer", "ВУЗ"
 
     class MajorChoices(models.TextChoices):
         TECHNIC = 'Technic', 'Техническое направление'
@@ -56,12 +57,14 @@ class MainInfoModel(models.Model):
         EE = "EE", "Экономика и проекты устойчивого развития энергетики (ЭЭ)"
         EM = "EM", "Управление бизнесом в энергетике (ЭМ)"
     
-
     class NeedDormitoryChoices(models.TextChoices):
         YES = "Yes", "Да"
         NO = "No", "Нет"
-        
 
+    class IsOlympWinnerChoices(models.TextChoices):
+        YES = "Yes", "Да"
+        NO = "No", "Нет"
+        
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     middle_name = models.CharField(max_length=200)
@@ -133,10 +136,17 @@ class MainInfoModel(models.Model):
         choices=SecondaryEconomicMinorChoices.choices,
         default=SecondaryEconomicMinorChoices.choices,
     )
+
     need_dormitory = models.CharField(
         max_length=5,
         choices=NeedDormitoryChoices.choices,
         default=NeedDormitoryChoices.NO
+    )
+
+    is_olymp_winner = models.CharField(
+        max_length=5,
+        choices=IsOlympWinnerChoices.choices,
+        default=IsOlympWinnerChoices.NO
     )
     # confirming
     first_confirm = models.BooleanField()
@@ -144,15 +154,15 @@ class MainInfoModel(models.Model):
 
 
 email_addresses = {
-    "GI":"gi@gubkin.uz",
-    "GC":"gc@gubkin.uz",
-    "RB":"rb@gubkin.uz",
-    "OS":"rn@gubkin.uz",
-    "DG":"rg@gubkin.uz",
-    "TS":"ts@gubkin.uz",
-    "TP":"tp@gubkin.uz",
-    "RT":"rt@gubkin.uz",
-    "RS":"rs@gubkin.uz",
-    "EE":"ee@gubkin.uz",
-    "EM":"em@gubkin.uz"
+    "GI": "gi@gubkin.uz",
+    "GC": "gc@gubkin.uz",
+    "RB": "rb@gubkin.uz",
+    "OS": "rn@gubkin.uz",
+    "DG": "rg@gubkin.uz",
+    "TS": "ts@gubkin.uz",
+    "TP": "tp@gubkin.uz",
+    "RT": "rt@gubkin.uz",
+    "RS": "rs@gubkin.uz",
+    "EE": "ee@gubkin.uz",
+    "EM": "em@gubkin.uz"
 }

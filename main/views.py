@@ -127,6 +127,8 @@ def home_form_view(request):
             cleaned_data = form.cleaned_data
             cleaned_data['gender'] = instance.get_gender_display()
             cleaned_data['graduation_place'] = instance.get_graduation_place_display()
+            cleaned_data['need_dormitory'] = instance.get_need_dormitory_display()
+            cleaned_data['is_olymp_winner'] = instance.get_is_olymp_winner_display()
             if cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:
                 cleaned_data['technic_major_choice_first_name'] = instance.get_technic_major_choice_first_display()
                 cleaned_data['technic_major_choice_second_name'] = instance.get_technic_major_choice_second_display()

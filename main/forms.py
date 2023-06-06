@@ -157,6 +157,9 @@ class MainInfoForm(forms.ModelForm):
                 }),
             'need_dormitory': Select(attrs={
                 "style": "width: 60px; height: 30px; font-size: 18px; "
+            }),
+            'is_olymp_winner': Select(attrs={
+                "style": "width: 60px; height: 30px; font-size: 18px; "
             })
         }
 
