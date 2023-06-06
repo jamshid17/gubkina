@@ -113,6 +113,8 @@ class MainInfoForm(forms.ModelForm):
             'graduation_place': Select(attrs={
                 "empty_label": "something",
                 "id": "select_edu",
+                "style": "max-width: 100%; height: 30px; font-size: 18px; "
+
                 }),
             'graduation_certificate_ser': TextInput(attrs={
                 "id": "diploma",
@@ -153,6 +155,9 @@ class MainInfoForm(forms.ModelForm):
             'economic_major_choice_second': Select(attrs={
                 "style": "max-width: 100%; height: 40px"
                 }),
+            'need_dormitory': Select(attrs={
+                "style": "width: 60px; height: 30px; font-size: 18px; "
+            })
         }
 
     def clean(self):
