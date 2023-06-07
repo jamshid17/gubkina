@@ -164,7 +164,7 @@ class MainInfoForm(forms.ModelForm):
         }
 
     def clean(self):
-        if not self.cleaned_data['first_confirm'] or not self.cleaned_data['second_confirm']:
+        if not self.cleaned_data['first_confirm'] or not self.cleaned_data['second_confirm'] or not self.cleaned_data['third_confirm']:
             raise ValidationError("Пожалуйста, подтвердите, что информация, представленная вам в заявлении, является правильной")
         if self.cleaned_data["major_choice"] == MainInfoModel.MajorChoices.TECHNIC:  
             if self.cleaned_data["technic_major_choice_first"] == MainInfoModel.MainTechnicMinorChoices.NONE:
