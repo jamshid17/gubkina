@@ -155,16 +155,15 @@ class MainInfoModel(models.Model):
 
 
 email_addresses = {
-    "GI": "ilhomhafizov6@gmail.com",
-    # "GI": "gi@gubkin.uz",
-    # "GC": "gc@gubkin.uz",
-    # "RB": "rb@gubkin.uz",
-    # "OS": "rn@gubkin.uz",
-    # "DG": "rg@gubkin.uz",
-    # "TS": "ts@gubkin.uz",
-    # "TP": "tp@gubkin.uz",
-    # "RT": "rt@gubkin.uz",
-    # "RS": "rs@gubkin.uz",
-    # "EE": "ee@gubkin.uz",
-    # "EM": "em@gubkin.uz"
+    "GI": "gi@gubkin.uz",
+    "GC": "gc@gubkin.uz",
+    "RB": "rb@gubkin.uz",
+    "OS": "rn@gubkin.uz",
+    "DG": "rg@gubkin.uz",
+    "TS": "ts@gubkin.uz",
+    "TP": "tp@gubkin.uz",
+    "RT": "rt@gubkin.uz",
+    "RS": "rs@gubkin.uz",
+    "EE": "ee@gubkin.uz",
+    "EM": "em@gubkin.uz"
 }
