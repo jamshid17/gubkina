@@ -71,7 +71,7 @@ class MainInfoForm(forms.ModelForm):
             'living_place': TextInput(attrs={
                 "id": "place",
                 'class': "same_input",
-                "placeholder": "Место проживания",
+                "placeholder": "Город, район, улица, дом",
                 }),
             'citizenship': TextInput(attrs={
                 "id": "native",
@@ -134,6 +134,10 @@ class MainInfoForm(forms.ModelForm):
                 "id": "choose_file",
                 "class": "custom-file-input"
                 }),
+            'copy_passport_habitance': ClearableFileInput(attrs={
+                "id": "choose_file",
+                "class": "custom-file-input"
+                }),
             'copy_graduation_certificate': ClearableFileInput(attrs={
                 "id": "choose_file",
                 "class": "custom-file-input"
@@ -189,4 +193,8 @@ class MainInfoForm(forms.ModelForm):
                 raise ValidationError(
                     message="Tanlangan yunalishlar bir xil bo'lishi mumkin emas!"
                 )
+        if not self.cleaned_data["copy_passport_habitance"]:
+            raise ValidationError(
+                message="Propiska passportini yuborish shart!"
+            )
         return super().clean()
