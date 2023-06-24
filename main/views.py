@@ -22,6 +22,7 @@ base_three_to_four_path = os.path.join("files", "three_to_four")
 def convert_pdfs(instance):
     certificate_path = str(instance.copy_graduation_certificate)
     passport_path = str(instance.copy_passport)
+    passport_habitance_path = str(instance.copy_passport_habitance)
     three_to_four_path = str(instance.image_three_to_four)
 
     merger = PdfMerger()
@@ -48,6 +49,17 @@ def convert_pdfs(instance):
         converted_file.save(final_passport_path)
     merger.append(final_passport_path)
 
+    if passport_habitance_path.endswith(".pdf"):
+        final_passport_habitance_path = passport_habitance_path
+    else:
+        image = Image.open(passport_habitance_path)
+        converted_file = image.convert('RGB')
+        now = time.time()
+        final_passport_habitance_path = os.path.join(settings.BASE_DIR, "files",
+                                           "samples", f"{now}.pdf")
+        converted_file.save(final_passport_habitance_path)
+    merger.append(final_passport_habitance_path)
+
     if three_to_four_path.endswith(".pdf"):
         final_three_to_four_path = three_to_four_path
     else:
@@ -61,6 +73,7 @@ def convert_pdfs(instance):
     
     os.remove(os.path.abspath(final_certificate_path))
     os.remove(os.path.abspath(final_passport_path))
+    os.remove(os.path.abspath(final_passport_habitance_path))
     os.remove(os.path.abspath(final_three_to_four_path))
 
     merged_file_path = "files/merged_pages.pdf"

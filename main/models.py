@@ -94,6 +94,13 @@ class MainInfoModel(models.Model):
         validators=[FileExtensionValidator(
             allowed_extensions=["pdf", "jpg", "jpeg", "png"]
         )])
+    copy_passport_habitance = models.FileField(
+        upload_to='files/passports',
+        validators=[FileExtensionValidator(
+            allowed_extensions=["pdf", "jpg", "jpeg", "png"]
+        )],
+        null=True,
+        blank=True)
     copy_graduation_certificate = models.FileField(
         upload_to='files/gr_certificates',
         validators=[FileExtensionValidator(
